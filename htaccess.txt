@@ -1,0 +1,2 @@
+ErrorDocument 404 page.php?p=404
+
