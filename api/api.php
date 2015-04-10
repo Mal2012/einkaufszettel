@@ -45,9 +45,14 @@ if($o_a=='register' && $o_user_mail != '' && $o_user_pass != '' && $o_user_name 
 if(_getUsername($o_user_name) == ''){
 	_addUser($o_user_name,$o_user_pass,$o_user_mail);
 	echo "0<br>";
+}else{
+	echo "1<br>";
+	echo "Benutzer existiert bereits";
 }
+}else{
+	echo "2<br>";
+	echo "Bitte alle Felder ausfüllen";
 }
-
 // User Ausloggen
 if($o_a=='logout' && $o_user_session != '' && _regSession($o_user_session) != '0'){
 	_delSession($o_user_session);
