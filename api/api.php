@@ -49,9 +49,6 @@ if(_getUsername($o_user_name) == ''){
 	echo "1<br>";
 	echo "Benutzer existiert bereits";
 }
-}else{
-	echo "2<br>";
-	echo "Bitte alle Felder ausfüllen";
 }
 // User Ausloggen
 if($o_a=='logout' && $o_user_session != '' && _regSession($o_user_session) != '0'){
@@ -105,6 +102,30 @@ $columnCount = 1;
 			 } 
 			header("Content-type: text/xml; charset=utf-8");
 			echo $dom->saveXML();
+}
+
+//Zettel abrufen JSON
+if($o_a=='getZettelJSON' && $o_user_session != '' && _regSession($o_user_session) != '0'){
+$uid = _getUserID_Sess($o_user_session);
+$row = _getZettel_a($uid);
+$output = array();
+while ($field = $row->fetch_assoc()) {
+$row_d = _getZettel_s($field['zettel_id']);
+$field_d = $row_d->fetch_assoc();
+$output[$field['zettel_id']]['id'] = $field['zettel_id'];	
+$output[$field['zettel_id']]['name'] = $field_d['name'];			 
+$output[$field['zettel_id']]['lchange'] = $field_d['lchange'];
+$output[$field['zettel_id']]['berechtigung'] = $field['berechtigung'];	
+$row_p = _getZettel_p($field['zettel_id']);		
+while($field_p = $row_p->fetch_assoc()){			 
+$output[$field['zettel_id']]['item'.$field_p['id']]['id'] = $field_p['id'];	
+$output[$field['zettel_id']]['item'.$field_p['id']]['name'] = $field_p['name'];	
+$output[$field['zettel_id']]['item'.$field_p['id']]['user'] = $field_p['user_id'];	
+$output[$field['zettel_id']]['item'.$field_p['id']]['status'] = $field_p['gekauft'];	
+}
+}
+
+print_r(json_encode($output, JSON_PRETTY_PRINT));
 }
 //Zettel Änderungen abrufen nach Datum
 if($o_a=='getZettel_lchange' && $o_user_session != '' && _regSession($o_user_session) != '0' && $o_zettel_id != '' && $o_zettel_lc != ''){
