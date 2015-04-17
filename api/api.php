@@ -157,6 +157,35 @@ header("Content-type: text/xml; charset=utf-8");
 echo 0;	
 }
 }
+
+//Zettel Änderungen abrufen nach Datum
+if($o_a=='getZettel_lchangeJSON' && $o_user_session != '' && _regSession($o_user_session) != '0' && $o_zettel_id != '' && $o_zettel_lc != ''){
+$uid = _getUserID_Sess($o_user_session);
+$row = _getZettel_a($uid);
+$field = $row->fetch_assoc();
+$row_d = _getZettel_s($field['zettel_id']);
+$field_d = $row_d->fetch_assoc();
+$output = array();
+if($o_zettel_lc < $field_d['lchange']){
+$output[$field['zettel_id']]['id'] = $field['zettel_id'];	
+$output[$field['zettel_id']]['name'] = $field_d['name'];			 
+$output[$field['zettel_id']]['lchange'] = $field_d['lchange'];
+$output[$field['zettel_id']]['berechtigung'] = $field['berechtigung'];	
+			
+$row_p = _getZettel_p($field['zettel_id']);		
+while($field_p = $row_p->fetch_assoc()){			 
+$output[$field['zettel_id']]['item'.$field_p['id']]['id'] = $field_p['id'];	
+$output[$field['zettel_id']]['item'.$field_p['id']]['name'] = $field_p['name'];	
+$output[$field['zettel_id']]['item'.$field_p['id']]['user'] = $field_p['user_id'];	
+$output[$field['zettel_id']]['item'.$field_p['id']]['status'] = $field_p['gekauft'];	
+}
+
+print_r(json_encode($output, JSON_PRETTY_PRINT));
+}else{
+echo 0;	
+}
+}
+
 // Zettel Löschen
 if($o_a=='delZettel' && $o_user_session != '' && _regSession($o_user_session) != '0' && $o_zettel_id != ''){
 _delZettel($o_zettel_id);
