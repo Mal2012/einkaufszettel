@@ -21,6 +21,21 @@ $o_item_status = $_GET['itemstatus'];
 #		User
 #
 #####################
+//User Prüfen
+if ($o_a == 'checkLogin' && $o_user_session != '' && _regSession($o_user_session) != '0' && $o_user_name != '') {
+$i_user_id = _getUserid($o_user_name);
+ $respone = Array();
+if(_regSession($o_user_session) == $i_user_id){
+	$respone["code"] = 0;
+    $respone["msg"] = "Benutzer eingeloggt";
+}else{
+	$respone["code"] = 1;
+    $respone["msg"] = "Benutzer nicht eingeloggt";
+}
+
+}
+
+
 //Login
 if ($o_a == 'login' && $o_user_name != '' && $o_user_pass != '') {
     $i_user_id = _getUserid($o_user_name);
