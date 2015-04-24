@@ -34,6 +34,20 @@ if(_getUserID_Sess($o_user_session) == $i_user_id){
 }
 
 }
+//User Session ID ausgeben
+if ($o_a == 'getSession' && $o_user_session != '' && $o_user_name != '') {
+
+ $respone = Array();
+if(_getSession($o_user_name) != ''){
+	$respone["code"] = 0;
+    $respone["msg"] = _getSession($o_user_name);
+}else{
+	$respone["code"] = 1;
+    $respone["msg"] = "Benutzer Keine Session hinterlegt";
+}
+
+}
+
 
 
 //Login

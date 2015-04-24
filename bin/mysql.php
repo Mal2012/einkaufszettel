@@ -123,6 +123,14 @@ return $sessid;
 }
 return 0;	
 }
+function _getSession($user){
+$abfrage = "SELECT * FROM `user` WHERE `user` = '".$user."'";
+$row = _mysqlquery($abfrage)->fetch_assoc();
+if($row != ''){
+return $row['token'];
+}
+return 0;	
+}
 
 function _addSession($user,$sessid){
 	$abfrage = "UPDATE user SET token = '".$sessid."' WHERE user = '".$user."'";
