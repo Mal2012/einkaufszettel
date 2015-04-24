@@ -123,6 +123,7 @@ return $sessid;
 }
 return 0;	
 }
+
 function _addSession($user,$sessid){
 	$abfrage = "UPDATE user SET token = '".$sessid."' WHERE user = '".$user."'";
 	$row = _mysqlquery($abfrage);
