@@ -43,27 +43,30 @@ if ($o_a == 'login' && $o_user_name != '' && $o_user_pass != '') {
 if ($o_a == 'register' && $o_user_mail != '' && $o_user_pass != '' && $o_user_name != '') {
     if (_getUsername($o_user_name) == '') {
         _addUser($o_user_name, $o_user_pass, $o_user_mail);
-        echo "0<br>";
+        $respone = Array("code" => 0, "msg" => "Benutzer registriert");
     } else {
-        echo "1<br>";
-        echo "Benutzer existiert bereits";
+        $respone["code"] = 1;
+        $respone["msg"] = "Benutzer existiert bereits!";
     }
+	 print_r(json_encode($respone));
 }
 // User Ausloggen
 if ($o_a == 'logout' && $o_user_session != '' && _regSession($o_user_session) != '0') {
     _delSession($o_user_session);
-    echo "0<br>";
+    $respone = Array("code" => 0, "msg" => "Benutzer ausgeloggt");
+	 print_r(json_encode($respone));
 }
 // User Finden
 if ($o_a == 'userFind' && $o_user_session != '' && _regSession($o_user_session) != '0' && $o_user_mail != '') {
     $row = _findUser($o_user_mail)->fetch_assoc();
     if ($row != '') {
-        echo "0<br>";
-        echo $row['id'];
+		 $respone = Array("code" => 0, "msg" => $row['id']);
+        
     } else {
-        echo "1<br>";
-        echo "Keine Benutzer gefunden";
+        $respone["code"] = 1;
+        $respone["msg"] = "Benutzer nicht gefunden!";
     }
+	 print_r(json_encode($respone));
 }
 
 #####################
@@ -159,34 +162,40 @@ if ($o_a == 'getZettel_lchange' && $o_user_session != '' && _regSession($o_user_
 // Zettel Löschen
 if ($o_a == 'delZettel' && $o_user_session != '' && _regSession($o_user_session) != '0' && $o_zettel_id != '') {
     _delZettel($o_zettel_id);
-    echo "0<br>";
+    $respone = Array("code" => 0, "msg" => "Zettel gelöscht");
+	 print_r(json_encode($respone));
 }
 
 // Items Hinzufügen
 if ($o_a == 'addItem' && $o_user_session != '' && _regSession($o_user_session) != '0' && $o_zettel_id != '' && $o_item_name != '') {
     _addZettel_item($o_zettel_id, $o_item_name, _getUserID_Sess($o_user_session));
-    echo "0<br>";
+    $respone = Array("code" => 0, "msg" => "Item hinzugefügt");
+	 print_r(json_encode($respone));
 }
 // Items Entfernen
 if ($o_a == 'delItem' && $o_user_session != '' && _regSession($o_user_session) != '0' && $o_zettel_id != '' && $o_item_id != '') {
     _delZettel_p($o_item_id, $o_zettel_id);
-    echo "0<br>";
+    $respone = Array("code" => 0, "msg" => "Item gelöscht");
+	 print_r(json_encode($respone));
 }
 
 // Items Status updaten
 if ($o_a == 'updateItem' && $o_user_session != '' && _regSession($o_user_session) != '0' && $o_zettel_id != '' && $o_item_id != '' && $o_item_status != '') {
     _updateZettel($o_zettel_id, $o_item_id, $o_item_status);
-    echo "0<br>";
+    $respone = Array("code" => 0, "msg" => "Item geändert");
+	 print_r(json_encode($respone));
 }
 
 // Zettel Hinzufügen
 if ($o_a == 'addZettel' && $o_user_session != '' && _regSession($o_user_session) != '0' && $o_zettel_name != '') {
     _addZettel($o_zettel_name, _getUserID_Sess($o_user_session));
-    echo "0<br>";
+   $respone = Array("code" => 0, "msg" => "Zettel hinzugefügt");
+    print_r(json_encode($respone));
 }
 // Zettel Freigeben
 if ($o_a == 'shareZettel' && $o_user_session != '' && _regSession($o_user_session) != '0' && $o_zettel_id != '' && $o_user_id != '') {
     _addZettel_user($o_zettel_id, $o_user_id);
-    echo "0<br>";
+    $respone = Array("code" => 0, "msg" => "Zettel freigegeben");
+	 print_r(json_encode($respone));
 }
 ?>

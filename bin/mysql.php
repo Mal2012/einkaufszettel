@@ -1,7 +1,7 @@
 <?php
    
 function getConnected() {
-	$mysqli = new mysqli('localhost', 'd01dde70', 'MnUtDRrXT4RgmQyX', 'd01dde70');
+	$mysqli = new mysqli('localhost', 'root', 'secret', 'einkaufszettel');
 
    if($mysqli->connect_error) 
      die('Connect Error (' . mysqli_connect_errno() . ') '. mysqli_connect_error());
