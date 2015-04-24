@@ -32,12 +32,11 @@ if(_getUserID_Sess($o_user_session) == $i_user_id){
 	$respone["code"] = 1;
     $respone["msg"] = "Benutzer nicht eingeloggt";
 }
-
+print_r(json_encode($respone));
 }
 //User Session ID ausgeben
-if ($o_a == 'getSession' && $o_user_session != '' && $o_user_name != '') {
-
- $respone = Array();
+if ($o_a == 'getSession' && $o_user_name != '') {
+$respone = Array("code" => 2, "msg" => "Benutzer existiert nicht");
 if(_getSession($o_user_name) != ''){
 	$respone["code"] = 0;
     $respone["msg"] = _getSession($o_user_name);
@@ -45,7 +44,7 @@ if(_getSession($o_user_name) != ''){
 	$respone["code"] = 1;
     $respone["msg"] = "Benutzer Keine Session hinterlegt";
 }
-
+print_r(json_encode($respone));
 }
 
 
