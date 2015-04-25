@@ -141,17 +141,16 @@ if ($o_a == 'getZettelJSON' && $o_user_session != '' && _regSession($o_user_sess
     while ($field = $row->fetch_assoc()) {
         $row_d = _getZettel_s($field['zettel_id']);
         $field_d = $row_d->fetch_assoc();
-		$name = $field_d['name'];
-        $output[$name]['id'] = $field['zettel_id'];
-        $output[$name]['name'] = $field_d['name'];
-        $output[$name]['lchange'] = $field_d['lchange'];
-        $output[$name]['berechtigung'] = $field['berechtigung'];
+        $output[$field['zettel_id']]['id'] = $field['zettel_id'];
+        $output[$field['zettel_id']]['name'] = $field_d['name'];
+        $output[$field['zettel_id']]['lchange'] = $field_d['lchange'];
+        $output[$field['zettel_id']]['berechtigung'] = $field['berechtigung'];
         $row_p = _getZettel_p($field['zettel_id']);
         while ($field_p = $row_p->fetch_assoc()) {
-            $output[$name]['item' . $field_p['id']]['id'] = $field_p['id'];
-            $output[$name]['item' . $field_p['id']]['name'] = $field_p['name'];
-            $output[$name]['item' . $field_p['id']]['user'] =  _getUsername_id($field_p['user_id']);
-            $output[$name]['item' . $field_p['id']]['status'] = $field_p['gekauft'];
+            $output[$field['zettel_id']]['items']['item' . $field_p['id']]['id'] = $field_p['id'];
+            $output[$field['zettel_id']]['items']['item' . $field_p['id']]['name'] = $field_p['name'];
+            $output[$field['zettel_id']]['items']['item' . $field_p['id']]['user'] =  _getUsername_id($field_p['user_id']);
+            $output[$field['zettel_id']]['items']['item' . $field_p['id']]['status'] = $field_p['gekauft'];
         }
     }
 
