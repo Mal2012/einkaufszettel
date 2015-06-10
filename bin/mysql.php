@@ -1,7 +1,7 @@
 <?php
    
 function getConnected() {
-	$mysqli = new mysqli('localhost', 'root', 'secret', 'einkaufszettel');
+	$mysqli = new mysqli('localhost', 'd01dde70', 'MnUtDRrXT4RgmQyX', 'd01dde70');
 
    if($mysqli->connect_error) 
      die('Connect Error (' . mysqli_connect_errno() . ') '. mysqli_connect_error());
@@ -87,11 +87,11 @@ return true;
 }
 function _addZettel($name,$user){
 	$stamp = date("Y-m-d H:i:s", time());
-	$abfrage = "INSERT INTO `einkaufszettel`.`einkaufszettel` (`id`, `name`, `lchange`) VALUES (NULL, '".$name."', '".$stamp."')";	
+	$abfrage = "INSERT INTO `einkaufszettel` (`id`, `name`, `lchange`) VALUES (NULL, '".$name."', '".$stamp."')";	
 $row = _mysqlquery($abfrage);
 $abfrage = "SELECT id FROM einkaufszettel WHERE name = '".$name."' AND lchange ='".$stamp."'";
 $row = _mysqlquery($abfrage)->fetch_assoc();
-$abfrage = "INSERT INTO `einkaufszettel`.`einkaufszettel_user` (`user_id`, `zettel_id`, `berechtigung`) VALUES ('".$user."', '".$row['id']."', 'o')";	
+$abfrage = "INSERT INTO `einkaufszettel_user` (`user_id`, `zettel_id`, `berechtigung`) VALUES ('".$user."', '".$row['id']."', 'o')";	
 $row = _mysqlquery($abfrage);
 return true;
 }
@@ -100,13 +100,13 @@ $stamp = date("Y-m-d H:i:s", time());
 $abfrage = "UPDATE `einkaufszettel` SET `lchange` ='".$stamp."' WHERE id = '".$id."' ";	
 $row = _mysqlquery($abfrage);
 	
-$abfrage = "UPDATE `einkaufszettel`.`einkaufszettel_items` SET `gekauft` = '".$val."' WHERE `einkaufszettel_items`.`id` = ".$item_id."";	
+$abfrage = "UPDATE `einkaufszettel_items` SET `gekauft` = '".$val."' WHERE `einkaufszettel_items`.`id` = ".$item_id."";	
 $row = _mysqlquery($abfrage);
 	
 	return true;
 }
 function _addZettel_user($zettel_id,$user){
-$abfrage = "INSERT INTO `einkaufszettel`.`einkaufszettel_user` (`id`, `user_id`, `zettel_id`, `berechtigung`) VALUES (NULL, '".$user."', '".$zettel_id."', 'g');";	
+$abfrage = "INSERT INTO `einkaufszettel_user` (`id`, `user_id`, `zettel_id`, `berechtigung`) VALUES (NULL, '".$user."', '".$zettel_id."', 'g');";	
 $row = _mysqlquery($abfrage);
 return true;	
 }
